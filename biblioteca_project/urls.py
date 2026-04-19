@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
 from libros import web_views  # ← AGREGAR
 from django.contrib import admin
 from django.urls import path, include
@@ -35,4 +37,6 @@ urlpatterns = [
     path('', web_views.home, name='home'),
     path('oauth/login/', web_views.oauth_login, name='oauth_login'),
     path('login/jwt/', web_views.jwt_login_page, name='jwt_login_page'),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
