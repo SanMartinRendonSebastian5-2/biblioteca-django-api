@@ -4,7 +4,7 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-
+from . import oauth_views  # ← AGREGAR
 # Importar vistas JWT de SimpleJWT
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,      # Vista para login (obtener tokens)
@@ -37,6 +37,13 @@ urlpatterns = [
     
     # Verificar token (POST: token → válido o inválido)
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    
+      # ─────────────────────────────────
+    # 🔑 AUTENTICACIÓN OAUTH 2.0 (GOOGLE)
+    # ─────────────────────────────────
+    path('auth/google/redirect/', oauth_views.google_oauth_redirect, name='google_redirect'),
+    path('auth/google/callback/', oauth_views.google_oauth_callback, name='google_callback'),
+    
     
     
     # ─────────────────────────────────
